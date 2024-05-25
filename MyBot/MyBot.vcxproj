@@ -187,9 +187,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BotConfig.cpp" />
     <ClCompile Include="MyBot.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BotConfig.h" />
     <ClInclude Include="dependencies\include\dpp-10.0\dpp\appcommand.h" />
     <ClInclude Include="dependencies\include\dpp-10.0\dpp\application.h" />
     <ClInclude Include="dependencies\include\dpp-10.0\dpp\auditlog.h" />
