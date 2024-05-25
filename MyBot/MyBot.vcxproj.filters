@@ -33,6 +33,18 @@
     <ClCompile Include="BotConfig.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SvnConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Svn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBot.h">
@@ -297,6 +309,18 @@
       <Filter>DPP\nlohmann</Filter>
     </ClInclude>
     <ClInclude Include="BotConfig.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SvnConfig.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Svn.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

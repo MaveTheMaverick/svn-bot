@@ -187,11 +187,17 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bot.cpp" />
     <ClCompile Include="BotConfig.cpp" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="MyBot.cpp" />
+    <ClCompile Include="Svn.cpp" />
+    <ClCompile Include="SvnConfig.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bot.h" />
     <ClInclude Include="BotConfig.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="dependencies\include\dpp-10.0\dpp\appcommand.h" />
     <ClInclude Include="dependencies\include\dpp-10.0\dpp\application.h" />
     <ClInclude Include="dependencies\include\dpp-10.0\dpp\auditlog.h" />
@@ -279,6 +285,8 @@
     <ClInclude Include="dependencies\include\dpp-10.0\dpp\win32_safe_warnings.h" />
     <ClInclude Include="dependencies\include\dpp-10.0\dpp\wsclient.h" />
     <ClInclude Include="MyBot.h" />
+    <ClInclude Include="Svn.h" />
+    <ClInclude Include="SvnConfig.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
