@@ -3,6 +3,10 @@
 #include "BotConfig.h"
 #include "SvnConfig.h"
 #include "Bot.h"
+#include "Svn.h"
+
+#include <thread>                       //std::this_thread::sleep_for()
+using namespace std::chrono_literals;   //ms
 
 /* Be sure to place your token in the line below.
  * Follow steps here to get a token:
@@ -18,7 +22,7 @@ const std::string    BOT_TOKEN    = "add your token here";
 
 int main()
 {
-	SvnConfig svn = SvnConfig::LoadSvnConfig();
+	SvnConfig svnConfig = SvnConfig::LoadSvnConfig();
 
 	BotConfig botConfig = BotConfig::LoadBotConfig();
 
@@ -50,7 +54,14 @@ int main()
 	});
 
 	/* Start the bot */
-	bot->start(dpp::st_wait);
+	bot->start(dpp::st_return);
 
+	Svn svn(svnConfig);
+	svn.StartUpdateTimer(&bot);
+
+	while (true)
+	{
+		std::this_thread::sleep_for(5000ms);
+	}
 	return 0;
 }

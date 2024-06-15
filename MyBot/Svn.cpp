@@ -31,7 +31,9 @@ bool Svn::Update()
 	{
 		updating = true;
 		std::string svnUpdate = svnConfig.svnUpdateCommand;
+		svnUpdate += '\"';
 		svnUpdate += svnConfig.svnRoot;
+		svnUpdate += '\"';
 		system(svnUpdate.c_str());
 		updating = false;
 		return true;
@@ -59,10 +61,11 @@ bool Svn::Update()
 
 std::string Svn::GetRevisionMessage(int revNum)
 {
-	//svn log -r XXX > NewestRevisionLog.txt
+	//svn log -r "XXX" > NewestRevisionLog.txt
 	std::string command = svnConfig.svnLogCommand;
+	command += '\"';
 	command += svnConfig.svnRoot;
-	command += " -r ";
+	command += "\" -r ";
 	command += std::to_string(revNum);
 	command += " > ";
 	command += NEWEST_REVISION_LOG;
@@ -72,8 +75,7 @@ std::string Svn::GetRevisionMessage(int revNum)
 	if (r != 0)
 	{
 		//std::cout << "[INFO] No revision with number " << revNum << std::endl;
-		std::string f;
-		return f;
+		return std::string();
 	}
 
 	//Read the file we just output the svn log command to
@@ -82,6 +84,9 @@ std::string Svn::GetRevisionMessage(int revNum)
 	std::stringbuf b;
 	nextRevisionFile.get(b, '\0');
 	nextRevisionFile.close();
+
+	svnConfig.Save();
+
 	return b.str();
 }
 
@@ -126,31 +131,42 @@ dpp::embed Svn::GetRevisionEmbed(int revNum)
 		footer = std::regex_replace(footer, std::regex("-0800 "), ""); //west coast daylight savings
 		nextRevisionText = nextRevisionText.substr(lineEnd + 2);
 
-		json j = Parse(std::ifstream(SVN_MEMBERS_FILE));
+		try {
+			json j = Parse(std::ifstream(SVN_MEMBERS_FILE));
 
-		for (json::const_iterator it = j.begin(); it != j.end(); ++it) {
-			if (it.value().is_string())
-			{
-				//replace iterator key with iterator value
-				revisionAuthor = std::regex_replace(revisionAuthor, std::regex(it.key()), it.value().get<std::string>());
+			for (json::const_iterator it = j.begin(); it != j.end(); ++it) {
+				if (it.value().is_string())
+				{
+					//replace iterator key with iterator value
+					revisionAuthor = std::regex_replace(revisionAuthor, std::regex(it.key()), it.value().get<std::string>());
+				}
+				else
+				{
+					std::cout << "[WARNING] Garbage field of type \"" << it.value().type_name() << "\" found in \"" << SVN_MEMBERS_FILE << "\"" << std::endl;
+				}
 			}
-			else
-			{
-				std::cout << "[WARNING] Garbage field of type \"" << it.value().type_name() << "\" found in \"" << SVN_MEMBERS_FILE << "\"" << std::endl;
-			}
+		}
+		catch (...)
+		{
+
 		}
 
 		std::cout << nextRevisionText << std::endl;
 
 
-
 		dpp::embed embed = dpp::embed()
 			.set_title(revisionNumber + "  |  " + revisionAuthor)
-			.set_description(nextRevisionText);
+			.set_description(nextRevisionText)
+			.set_footer(footer, "https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/665786b8a93285bff36e194e_discord-mark-white%202.webp");
 		return embed;
 	}
 
 	return dpp::embed();
+}
+
+void Svn::UpdateConfig(SvnConfig& _svnConfig)
+{
+	svnConfig = _svnConfig;
 }
 
 void Svn::TimerCallbackUpdate(void* lpParameter, BOOLEAN TimerOrWaitFired)
@@ -172,10 +188,18 @@ void Svn::TimerCallbackUpdate(void* lpParameter, BOOLEAN TimerOrWaitFired)
 		dpp::embed embed = timerInfo->self->GetRevisionEmbed(svnConfig.lastRevision + 1);
 
 
-		dpp::message m(1149928180740784259ULL, embed);
-		m.set_guild_id(1146177411004768336ULL);
+		dpp::message m(svnConfig.updateMessageChannel, embed);
+		//m.set_guild_id(1146177411004768336ULL);
 
 		dpp::Bot* bot = timerInfo->bot;
+		assert(bot);
+
+		//const std::string& footerEmbedURL = bot->GetBotConfig().footerEmbedURL;
+		//if (!footerEmbedURL.empty())
+		//{
+		//	
+		//}
+
 		try {
 			dpp::message mReturn = bot->Cluster->message_create_sync(m);
 

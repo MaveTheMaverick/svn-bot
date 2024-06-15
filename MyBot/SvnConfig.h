@@ -3,7 +3,7 @@
 #include "Config.h"
 
 #define NEWEST_REVISION_LOG "NewestRevisionLog.txt"
-#define LAST_REVISION_LOG   "LastRevisionNum.txt"
+//#define LAST_REVISION_LOG   "LastRevisionNum.txt"
 #define SVN_MEMBERS_FILE    "TeamMembers.json"
 
 #define EXCEPTION_NO_REVISION "Revision number does not exist"
@@ -33,6 +33,10 @@ public:
 
 	int lastRevision = 0;
 
+	unsigned long long updateMessageChannel = 0;
+
+private:
+
 public:
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE(SvnConfig, svnRoot, svnProjectFolder, svnUpdateCommand, svnLogCommand, lastRevision)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(SvnConfig, svnRoot, svnProjectFolder, svnUpdateCommand, svnLogCommand, lastRevision, updateMessageChannel)
 };

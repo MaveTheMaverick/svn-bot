@@ -20,6 +20,7 @@ BotConfig BotConfig::LoadBotConfig(const char* configFile)
 		configOut.close();
 	}
 
+	botConfig.fileName = configFile;
 	return botConfig;
 }
 
@@ -34,7 +35,7 @@ BotConfig::~BotConfig()
 
 void BotConfig::Save()
 {
-	std::ofstream configOut(file);
+	std::ofstream configOut(fileName);
 
 	json j = *this;
 	configOut << j;

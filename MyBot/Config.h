@@ -18,5 +18,5 @@ public:
 	json jsonData;
 
 protected:
-	std::string file;
+	std::string fileName;
 };

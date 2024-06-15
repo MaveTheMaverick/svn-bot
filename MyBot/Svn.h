@@ -22,6 +22,8 @@ public:
 	std::string GetRevisionMessage(int revNum);
 	dpp::embed  GetRevisionEmbed(int revNum);
 
+	void UpdateConfig(SvnConfig& _svnConfig);
+
 private:
 	SvnConfig svnConfig;
 	bool updating = false;

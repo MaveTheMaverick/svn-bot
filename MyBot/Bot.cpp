@@ -1,7 +1,8 @@
 #include "Bot.h"
 
 dpp::Bot::Bot(BotConfig& _botConfig)
-	: botConfig(_botConfig)
+    : Cluster(nullptr)
+	, botConfig(_botConfig)
 {
     char* tokenBuffer;
     size_t tokenBufferSize;
@@ -16,4 +17,10 @@ dpp::Bot::Bot(BotConfig& _botConfig)
         delete tokenBuffer;
     }
     assert(Cluster);
+}
+
+dpp::Bot::~Bot()
+{
+    if (Cluster)
+        delete Cluster;
 }
