@@ -1,5 +1,7 @@
 #include "Bot.h"
 
+#define EXIT_CODE_NO_TOKEN -2
+
 dpp::Bot::Bot(BotConfig& _botConfig)
     : Cluster(nullptr)
 	, botConfig(_botConfig)
@@ -10,6 +12,7 @@ dpp::Bot::Bot(BotConfig& _botConfig)
     if (tokenBufferSize == 0 || !tokenBuffer)
     {
         std::cout << "Failed to read token. Ensure environment variable \"" << botConfig.environmentToken.c_str() << "\" is set to the bot's token" << std::endl;
+        exit(EXIT_CODE_NO_TOKEN);
     }
     else
     {

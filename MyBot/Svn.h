@@ -38,9 +38,9 @@ private:
 
 	void* handleUpdate = nullptr;
 	TimerInfo timerInfoUpdate;
-	static void TimerCallbackUpdate(void* lpParameter, BOOLEAN TimerOrWaitFired);
+	static void __stdcall TimerCallbackUpdate(void* lpParameter, BOOLEAN TimerOrWaitFired);
 
 	void* handleBuild = nullptr;
 	TimerInfo timerInfoBuild;
-	static void TimerCallbackBuild(void* lpParameter, BOOLEAN TimerOrWaitFired);
+	static void __stdcall TimerCallbackBuild(void* lpParameter, BOOLEAN TimerOrWaitFired);
 };
